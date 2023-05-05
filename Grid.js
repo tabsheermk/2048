@@ -29,6 +29,10 @@ export default class Grid {
         }, [])
     }
 
+    get cells(){
+        return this.#cells;
+    }
+
     get #emptyCells(){
         return this.#cells.filter(cell => !cell.tile);
     }
@@ -51,6 +55,7 @@ class Cell{
         this.#x = x;
         this.#y = y;
     }
+
     get tile(){
         return this.#tile;
     }
@@ -81,9 +86,16 @@ class Cell{
     }
 
     canAccept(tile){
-        return (this.tile == null || (this.mergeTile == null && this.tile.value == tile.value))
+        return (this.tile == null || (this.mergeTile == null && this.tile.value === tile.value))
     }
 
+    mergeTiles(){
+        if(this.tile == null || this.mergeTile == null) return;
+        this.tile.value = this.tile.value + this.mergeTile.value;
+        console.log(this.tile.value, this.mergeTile.value)
+        this.mergeTile.remove();
+        this.mergeTile = null;
+    }
 }
 
 
